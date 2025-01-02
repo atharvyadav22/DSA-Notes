@@ -79,35 +79,37 @@ Pascal's Triangle represented in a 2D list for \(n = 5\):
 import java.util.ArrayList;
 import java.util.List;
 
-public class PascalTriangle {
+class Solution {
     public static List<List<Integer>> generate(int numRows) {
-        // Create a list to hold all the rows of the triangle
-        List<List<Integer>> triangle = new ArrayList<>();
-
-        // Loop through each row
+        List<List<Integer>> result = new ArrayList<>();
+        
+        // Loop through each row and calculate it using the binomial coefficient formula
         for (int i = 0; i < numRows; i++) {
-            // Create a new list to store the current row
-            List<Integer> row = new ArrayList<>();
-
-            // Loop through each element in the row
-            for (int j = 0; j <= i; j++) {
-                // First and last elements are always 1
-                if (j == 0 || j == i) {
-                    row.add(1);
-                } else {
-                    // Add the sum of the two elements above from the previous row
-                    row.add(triangle.get(i - 1).get(j - 1) + triangle.get(i - 1).get(j));
-                }
-            }
-
-            // Add the current row to the triangle
-            triangle.add(row);
+            result.add(nCr(i));  // Calculate the i-th row using the nCr function
         }
+        
+        return result;
+    }
 
-        // Return the full triangle
-        return triangle;
+    // Function to compute the binomial coefficients (nCr) for the r-th row
+    public static List<Integer> nCr(int r) {
+        List<Integer> row = new ArrayList<>();
+        long coefficient = 1;  // Using long to prevent overflow for larger values of r
+        
+        // The first coefficient is always 1
+        row.add(1);
+        
+        // Calculate the remaining coefficients in the r-th row
+        for (int k = 1; k <= r; k++) {
+            // Calculate the coefficient using the iterative formula
+            coefficient = coefficient * (r - k + 1) / k;
+            row.add((int) coefficient);  // Cast to int for the final result (since coefficients are integers)
+        }
+        
+        return row;
     }
 }
+
 ```
 
 ---
