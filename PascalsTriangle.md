@@ -104,7 +104,10 @@ class Solution {
             // Calculate the coefficient using the iterative formula
             coefficient = coefficient * (r - k + 1) / k;
             row.add((int) coefficient);  // Cast to int for the final result (since coefficients are integers)
-        }
+
+        //     // Add the two elements directly above(This Take More Time To Compute So not ues but locically the process is this)
+        //             row.add(triangle.get(i - 1).get(j - 1) + triangle.get(i - 1).get(j));
+  
         
         return row;
     }
