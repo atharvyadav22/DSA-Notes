@@ -19,7 +19,7 @@ We want to solve:
 
 ---
 
-## 1⃣ **Kadane's Algorithm**  
+## **Kadane's Algorithm**  
 **Use When**: You want the best overall streak, regardless of length.
 
 ### **Code with Initial and Final Array States**:
@@ -58,49 +58,33 @@ for (int mood : moods) {
 
 ---
 
-## 2⃣ **Prefix Sum**  
+## **Prefix Sum**  
 **Use When**: You need the sum between any two days.
 
 ### **Code with Initial and Final Array States**:
+
 ```java
-// Input array: [4, -2, 1, 3, -5, 6, -1]
-int[] prefixSum = new int[moods.length];
-prefixSum[0] = moods[0];
+public class PrefixSumInPlace {
+    public static void main(String[] args) {
+        // Initial Array
+        int[] array = {4, -2, 5, 1, -3, 7};
 
-for (int i = 1; i < moods.length; i++) {
-    prefixSum[i] = prefixSum[i - 1] + moods[i];
-    System.out.println("Prefix Sum [" + i + "] = " + prefixSum[i]);
-}
+        // Calculate prefix sum in-place
+        for (int i = 1; i < array.length; i++) {
+            array[i] += array[i - 1];  // Add the previous prefix to the current element
+        }
 
-// Calculating max sum using prefix sum
-int maxSum = Integer.MIN_VALUE;
-for (int start = 0; start < moods.length; start++) {
-    for (int end = start; end < moods.length; end++) {
-        int sum = start == 0 ? prefixSum[end] : prefixSum[end] - prefixSum[start - 1];
-        maxSum = Math.max(maxSum, sum);
+        // Print the final modified array
+        System.out.println("Final Prefix Array: " + java.util.Arrays.toString(array));
     }
 }
-System.out.println("Max Sum = " + maxSum);
 ```
-
-### **Visual Walkthrough**:
-| Step | Prefix Sum Array |
-|------|------------------|
-| 1    | [4]              |
-| 2    | [4, 2]           |
-| 3    | [4, 2, 3]        |
-| 4    | [4, 2, 3, 6]     |
-| 5    | [4, 2, 3, 6, 1]  |
-| 6    | [4, 2, 3, 6, 1, 7] |
-| 7    | [4, 2, 3, 6, 1, 7, 6] |
-
 ### **Final Array State**:  
 `Prefix Sum Array = [4, 2, 3, 6, 1, 7, 6]`  
-`Max Sum = 7`
 
 ---
 
-## 3⃣ **Sliding Window**  
+## **Sliding Window**  
 **Use When**: You want the best streak for a fixed length.
 
 ### **Code with Initial and Final Array States**:
