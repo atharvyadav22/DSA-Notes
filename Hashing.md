@@ -1,3 +1,4 @@
+
 ## **Hashing Overview**
 
 Hashing is a technique used to uniquely identify a specific object from a collection of objects. It uses a **hash function** to map data of arbitrary size (like strings or integers) to a fixed size. This is mainly used for data retrieval and ensuring that each data has a unique identifier.
@@ -13,16 +14,98 @@ Hashing is a technique used to uniquely identify a specific object from a collec
 
 | **Method**             | **Description**                                                                 | **Example**                                                       | **Time Complexity** | **Space Complexity** |
 |------------------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------|----------------------|
-| `put(key, value)`       | Adds a key-value pair to the map. If the key exists, it updates the value.      | `map.put("name", "Alice");`                                        | O(1)                | O(n)                 |
-| `get(key)`              | Returns the value associated with the key. If not found, returns `null`.        | `map.get("name");`  // returns "Alice"                            | O(1)                | O(n)                 |
-| `containsKey(key)`      | Checks if the map contains the specified key.                                  | `map.containsKey("name");`                                         | O(1)                | O(n)                 |
-| `containsValue(value)`  | Checks if the map contains the specified value.                                | `map.containsValue("Alice");`                                     | O(n)                | O(n)                 |
-| `remove(key)`           | Removes the key-value pair from the map based on the key.                       | `map.remove("name");`                                             | O(1)                | O(n)                 |
-| `size()`                | Returns the number of key-value pairs in the map.                              | `map.size();`                                                     | O(1)                | O(n)                 |
-| `clear()`               | Removes all key-value pairs from the map.                                       | `map.clear();`                                                    | O(n)                | O(n)                 |
-| `isEmpty()`             | Checks if the map is empty.                                                    | `map.isEmpty();`                                                  | O(1)                | O(n)                 |
-| `keySet()`              | Returns a set view of all keys in the map.                                      | `map.keySet();`                                                   | O(n)                | O(n)                 |
-| `values()`              | Returns a collection view of all values in the map.                             | `map.values();`                                                   | O(n)                | O(n)                 |
+| put(key, value)       | Adds a key-value pair to the map. If the key exists, it updates the value.      | map.put("name", "Alice");                                        | O(1)                | O(n)                 |
+| get(key)              | Returns the value associated with the key. If not found, returns null.        | map.get("name");  // returns "Alice"                            | O(1)                | O(n)                 |
+| getOrDefault(key, defaultValue) | Returns the value associated with the key, or a default value if the key is not found. | map.getOrDefault("age", 18); // returns 18 if "age" is missing | O(1)                | O(n)                 |
+| containsKey(key)      | Checks if the map contains the specified key.                                   | map.containsKey("name");                                         | O(1)                | O(n)                 |
+| containsValue(value)  | Checks if the map contains the specified value.                                 | map.containsValue("Alice");                                      | O(n)                | O(n)                 |
+| remove(key)           | Removes the key-value pair from the map based on the key.                       | map.remove("name");                                              | O(1)                | O(n)                 |
+| size()                | Returns the number of key-value pairs in the map.                               | map.size();                                                      | O(1)                | O(n)                 |
+| clear()               | Removes all key-value pairs from the map.                                       | map.clear();                                                     | O(n)                | O(n)                 |
+| isEmpty()             | Checks if the map is empty.                                                    | map.isEmpty();                                                   | O(1)                | O(n)                 |
+| keySet()              | Returns a set view of all keys in the map.                                      | map.keySet();                                                    | O(n)                | O(n)                 |
+| values()              | Returns a collection view of all values in the map.                             | map.values();                                                    | O(n)                | O(n)                 |
+
+
+---
+
+## **Using `getOrDefault()` for Frequency Counting** 
+
+The `getOrDefault()` method simplifies the process of counting character frequencies by avoiding `null` checks. Instead of manually checking if a key exists in the map, you can use:
+
+```java
+map.put(c, map.getOrDefault(c, 0) + 1);
+```
+
+### 💡 **Why This Matters:**
+- It reduces code length and improves readability.
+- It handles missing keys efficiently by setting a default value of `0` if the key is not present.
+
+---
+
+## **Checking Frequency Equality Using HashSet**
+
+To verify if all characters in a string have the same frequency:
+
+### ✅ **Key Concept:**
+A **HashSet** stores only unique values.  
+If you insert values into a **HashSet**, and it only contains **one unique value**, it means all values you inserted were the same.
+
+---
+
+### 🔄 **Step-by-Step Example:**
+Let’s break down why `uniqueFrequencies.size() == 1` indicates that all characters have the same frequency.
+
+---
+
+### 🧩 **Visual Summary Table:**
+
+set size is determined by maximum frequency
+
+| **String**   | **Frequency Map**                    | **HashSet**     | **Set Size** | **Result** |
+|--------------|-------------------------------------|----------------|--------------|------------|
+| `"aabbcc"`   | `{ 'a' -> 2, 'b' -> 2, 'c' -> 2 }`   | `{2}`          | 1            | `true`     |
+| `"aabbbc"`   | `{ 'a' -> 2, 'b' -> 3, 'c' -> 1 }`   | `{1, 2, 3}`    | 3            | `false`    |
+| `"xyz"`      | `{ 'x' -> 1, 'y' -> 1, 'z' -> 1 }`   | `{1}`          | 1            | `true`     |
+| `"abb"`      | `{ 'a' -> 1, 'b' -> 2 }`             | `{1, 2}`       | 2            | `false`    |
+
+---
+
+### 🧩 **Complete Code Example:**
+
+```java
+import java.util.*;
+
+public class GoodStringChecker {
+    public static boolean isGoodString(String s) {
+        HashMap<Character, Integer> freqMap = new HashMap<>();
+
+        // Count frequencies using getOrDefault
+        for (char c : s.toCharArray()) {
+            freqMap.put(c, freqMap.getOrDefault(c, 0) + 1);
+        }
+
+        // Convert frequencies to a HashSet
+        HashSet<Integer> uniqueFrequencies = new HashSet<>(freqMap.values());
+
+        // Return true if all frequencies are the same
+        return uniqueFrequencies.size() == 1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isGoodString("aabbcc")); // true
+        System.out.println(isGoodString("aabbbc")); // false
+    }
+}
+```
+
+---
+
+### 💡 **Key Takeaways for Interviews:**
+
+1. **Use `getOrDefault()` to simplify frequency counting.**
+2. **Use `HashSet` to check if all frequencies are the same.**
+3. **Understand why `size() == 1` means all characters have the same frequency.**
 
 ---
 
@@ -123,3 +206,4 @@ String[] valueArray = values.toArray(new String[0]);
 ---
 
 These notes should help you quickly understand the key methods and concepts related to **Hashing** and **HashMap/HashSet**.
+
