@@ -146,6 +146,7 @@ value = 0
 #### 🔧 **Step 1: Clear the 2nd bit.**  
 ```
 n     = 1101
+Mask  = 0100
 ~Mask = 1011
 --------------
 n & ~Mask = 1001
@@ -233,7 +234,7 @@ n = n & Mask                       // Clear the range
 ### 🔧 **Java Code:**
 ```java
 public int clearBitsInRange(int n, int i, int j) {
-    int leftMask = (~0) << (j + 1);      // Mask for left part
+    int leftMask = (~0) << (j + 1);      // Mask for left part ( ~0 = 11111111... (infinite 1s in binary) )
     int rightMask = (1 << i) - 1;        // Mask for right part
     int mask = leftMask | rightMask;     // Combine both masks
     return n & mask;                     // Clear the bits in the range
@@ -249,10 +250,106 @@ i = 2, j = 5
 
 Step 1: LeftMask = (~0) << (5 + 1) = 11000000
 Step 2: RightMask = (1 << 2) - 1 = 00000011
-Step 3: Mask = 11000000 | 00000011 = 11000011
+Step 3: Mask = 
+  11000000 //j+1 se '1s'
+| 00000011 //i-1 se '1s'
+= 11000011
 Step 4: n & Mask = 11111111 & 11000011 = 11000011
 
 Result: 195 (Binary: 11000011)
 ```
+---
+
+# ⚡ **Fast Exponentiation (Binary Exponentiation)**  
+Fast Exponentiation is an efficient algorithm to compute \( a^b \) in **O(log b)** time complexity using **bit manipulation**.
 
 ---
+
+## 💡 **Why Fast Exponentiation?**
+- Brute-force multiplication takes **O(b)** time.
+- Fast exponentiation reduces the time complexity to **O(log b)** by breaking the problem into smaller powers using binary representation of the exponent.
+
+---
+
+## ✅ **Key Concept:**  
+### **Power Rule:**
+- If **b** is even: 
+  \[
+  a^b = (a^{b/2})^2
+  \]
+- If **b** is odd:  
+  \[
+  a^b = a \times a^{b-1}
+  \]
+
+---
+
+## 🧩 **Algorithm:**
+1. Convert the exponent **b** into its binary representation.
+2. Multiply the base **a** only when the corresponding bit in **b** is **1**.
+3. Use **squaring** to reduce the number of multiplications.
+
+---
+
+## 🔧 **Java Code:**
+```java
+public long fastExponentiation(long a, long b) {
+    long result = 1;     // Initialize result
+    long base = a;       // Base number
+
+    while (b > 0) {
+        // If the current bit in b is 1, multiply the result by the base
+        if ((b & 1) == 1) {
+            result *= base;
+        }
+        // Square the base for the next bit
+        base *= base;
+        // Right shift b to check the next bit
+        b >>= 1;
+    }
+    return result;
+}
+```
+
+---
+
+## 🧩 **Example Walkthrough:**  
+Let's calculate **3^13** using fast exponentiation.
+
+### 1️⃣ Convert exponent **13** to binary:  
+\[
+13 = 1101_2
+\]
+
+### 2️⃣ Process each bit (right to left):
+| Binary Bit | Action               | Result   | Base    |
+|------------|----------------------|----------|---------|
+| **1**      | Multiply by base      | 3        | 3       |
+| **0**      | Square base           |          | 9       |
+| **1**      | Multiply by base      | 27       | 9       |
+| **1**      | Multiply by base      | 729      | 81      |
+
+### 🔧 **Final Answer:**  
+\[
+3^{13} = 1594323
+\]
+
+---
+
+## 🚀 **Time Complexity:**
+- **O(log b)**  
+- Efficient for very large powers.
+
+---
+
+## 📚 **Key Takeaways:**
+- **Use Fast Exponentiation whenever you need to compute large powers quickly.**
+- This algorithm leverages **binary representation of the exponent** to minimize the number of multiplications.
+- It’s widely used in:
+  - **Cryptography (RSA encryption)**
+  - **Modular arithmetic**
+  - **Number theory algorithms**
+
+---
+
+Do you want notes with **modular exponentiation** as well?
