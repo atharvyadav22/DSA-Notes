@@ -36,7 +36,13 @@ Since the result is **non-zero**, the 3rd bit is **1**.
 ```java
 public int getIthBit(int n, int i) {
     int mask = 1 << i;
-    return (n & mask) == 0 ? 0 : 1;
+    if((n & mask) == 0){
+        return 0;
+    }
+    else {
+        return 1;
+    }
+   
 }
 ```
 
@@ -328,7 +334,7 @@ Let's calculate **3^13** using fast exponentiation.
 | **0**      | Square base           |          | 9       |
 | **1**      | Multiply by base      | 27       | 9       |
 | **1**      | Multiply by base      | 729      | 81      |
-
+ma
 ### 🔧 **Final Answer:**  
 \[
 3^{13} = 1594323
@@ -352,4 +358,68 @@ Let's calculate **3^13** using fast exponentiation.
 
 ---
 
-Do you want notes with **modular exponentiation** as well?
+# **Adding 1 Using `-~n`**
+
+
+#### **Concept Overview**
+The expression `n = -~n` is a **bit manipulation trick** used to add 1 to an integer. It utilizes the properties of the bitwise NOT (`~`) operator and two's complement arithmetic.
+
+---
+
+#### **Step-by-Step Explanation**
+1. **What `~n` Does:**
+   - The **bitwise NOT (`~`) operator** flips all the bits of `n`.
+   - In two's complement arithmetic:
+     - `~n` is equivalent to `-(n + 1)`.
+
+2. **What `-~n` Does:**
+   - Negating `~n` results in:
+     - `-~n = -(-(n + 1)) = n + 1`.
+
+---
+
+#### **Example**
+Let’s add 1 to `n = 5`:
+
+1. Start with `n = 5`  
+   Binary: `0000 0101`
+
+2. Compute `~n`:  
+   - Flip all bits of `n`:  
+     `1111 1010` (represents `-6` in two's complement).
+
+3. Compute `-~n`:  
+   - Negate `~n` (flip bits and add 1):  
+     `0000 0110` (equals `6` in decimal).
+
+---
+
+
+#### **Advantages**
+- **Compact**: Achieves addition in one expression.
+- **Efficient**: Avoids looping or propagating carry as in binary addition.
+- **Works Seamlessly**: Handles signed integers naturally with two's complement.
+
+---
+
+#### **Limitations**
+- **Readability**:  
+   - This approach is less intuitive compared to `n + 1`.  
+   - Not recommended for production code unless performance is critical.
+- **Limited Practicality**:  
+   - Used more as a programming trick than a common solution.
+
+---
+
+#### **When to Use?**
+- In **low-level or embedded systems programming** where performance is crucial.
+- To solve specific problems requiring **pure bit manipulation** without arithmetic operations.
+
+---
+
+#### **Summary**
+The `-~n` trick for adding 1 is:
+1. A concise and efficient way to perform addition.
+2. Based on the properties of **bitwise NOT (`~`)** and **two's complement arithmetic**.
+3. Useful in specific contexts, but less readable than `n + 1`.
+
