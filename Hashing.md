@@ -143,7 +143,7 @@ Sometimes, you may want to convert the contents of a HashMap into an array. Here
 **Code:**
 ```java
 // HashMap to Key Array
-Set<String> keys = map.keySet();
+Set<String> keys = map.keySet(); //Also We Can Print It Directly  As It Is Set
 String[] keyArray = keys.toArray(new String[0]);
 
 // HashMap to Value Array

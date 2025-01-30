@@ -334,7 +334,9 @@ int getLength() {
 ---
 
 ### 3️⃣ **Detect a Loop in the Linked List**
-Using ** Floyd's Cycle Detection Algorithm **:
+Using **Floyd's Cycle Detection Algorithm**:
+
+![Floyd's Cycle](Images/floydsCycle.png)
 ```java
 boolean detectLoop() {
     Node slow = head, fast = head;
