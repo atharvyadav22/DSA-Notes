@@ -80,7 +80,17 @@ public class PrefixSumInPlace {
 }
 ```
 ### **Final Array State**:  
-`Prefix Sum Array = [4, 2, 3, 6, 1, 7, 6]`  
+`Prefix Sum Array = [4, 2, 7, 8, 5, 12]`  
+
+### **Visual Walkthrough**:
+| Step | Index | Original Value | Prefix Sum |
+|------|-------|----------------|------------|
+| 1    |  0    | 4              | 4          |
+| 2    |  1    | -2             | 4 + -2 = 2 |
+| 3    |  2    | 5              | 2 + 5 = 7  |
+| 4    |  3    | 1              | 7 + 1 = 8  |
+| 5    |  4    | -3             | 8 + -3 = 5 |
+| 6    |  5    | 7              | 5 + 7 = 12 |
 
 ---
 
@@ -128,8 +138,8 @@ for (int i = k; i < moods.length; i++) {
 ## Summary Table
 | **Approach**        | **Use Case**                                       | **Result**                | **Time Complexity** | **Space Complexity** |
 |---------------------|----------------------------------------------------|---------------------------|---------------------|---------------------|
-| **Kadane's**        | Best overall streak (any length)                   | `[4, -2, 1, 3]` → **6**   | O(n)                | O(1)                |
-| **Prefix Sum**      | Sum between any two specific days                  | Subarray `[1, 3, -5]` → **-1** | O(n^2)              | O(n)                |
+| **Kadane's**        | Best overall streak (any length)                   | `[4, -2, 1, 3, -5, 6]` → **7**   | O(n)                | O(1)                |
+| **Prefix Sum**      | Sum between any two specific days                  | Subarray `[1, 3, -5]` → **-1** | O(n)              | O(n)                |
 | **Sliding Window**  | Best fixed-length streak                           | 3-day streak → **4**      | O(n)                | O(1)                |
 
 ---
@@ -140,6 +150,3 @@ for (int i = k; i < moods.length; i++) {
 - **Sliding Window**: Use when looking for the best subarray sum of a fixed size.
 
 ---
-
-## **Final Thoughts**  
-Mastering these three approaches will give you the tools to tackle most subarray-related problems in interviews!
