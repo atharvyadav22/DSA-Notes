@@ -39,7 +39,7 @@ for (int mood : moods) {
         currentMood = 0;  // Reset if mood goes negative
     }
 }
-// Output: Max Mood Streak = 6
+// Output: Max Mood Streak = 7
 ```
 
 ### **Visual Walkthrough**:
@@ -54,7 +54,7 @@ for (int mood : moods) {
 | 7    | -1   | 6            | 7        |
 
 ### **Final Array State**:  
-`Max Mood Streak = 6`
+`Max Mood Streak = 7`
 
 ---
 
