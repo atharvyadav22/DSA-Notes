@@ -1,5 +1,5 @@
 
-## ✅ **Basic Implementation of a Singly Linked List**
+# **Singly Linked List**
 
 ### **Node Structure:**
 ```java
@@ -336,6 +336,8 @@ int getLength() {
 ### 3️⃣ **Detect a Loop in the Linked List**
 Using **Floyd's Cycle Detection Algorithm**:
 
+A **cycle (loop)** in a Linked List occurs when a node’s `next` pointer points to a **previous node** instead of `null`, creating an infinite loop.
+
 ![Floyd's Cycle](Images/floydsCycle.png)
 ```java
 boolean detectLoop() {
@@ -350,10 +352,140 @@ boolean detectLoop() {
     return false;
 }
 ```
+---
+
+### 4️⃣ **Remove a Cycle in a Singly Linked List**  
+
+#### **Java Code for Finding the Start of the Cycle**
+```java
+Node detectCycleStart(Node head) {
+    Node slow = head, fast = head;
+
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+
+        if (slow == fast) {
+            slow = head; // Reset slow to head
+            while (slow != fast) {
+                slow = slow.next;
+                fast = fast.next;
+            }
+            return slow; // Cycle start node
+        }
+    }
+    return null; // No cycle
+}
+```
 
 ---
 
-### 4️⃣ **Remove Duplicates**
+### **3️⃣ Removing the Cycle**
+To remove the cycle:
+1. **Find the cycle's start node** using `detectCycleStart(head)`.
+2. **Traverse to the last node in the cycle**.
+3. **Set the last node’s `next` pointer to `null`**.
+
+#### **Visual Representation**
+```
+Before Removal:
+1 -> 2 -> 3 -> 4 -> 5
+         ^         |
+         |_________|
+
+After Removal:
+1 -> 2 -> 3 -> 4 -> 5 -> null
+```
+
+#### **Java Code to Remove the Cycle**
+```java
+void removeCycle(Node head) {
+    Node start = detectCycleStart(head);
+    if (start == null) return; // No cycle detected
+
+    Node temp = start;
+    while (temp.next != start) {
+        temp = temp.next;
+    }
+    temp.next = null; // Break the loop
+}
+```
+
+---
+
+### **Full Implementation: Detect & Remove Cycle**
+```java
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    Node head;
+
+    // Detect cycle using Floyd’s Algorithm
+    boolean hasCycle() {
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) return true;
+        }
+        return false;
+    }
+
+    // Find cycle start node
+    Node detectCycleStart() {
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                slow = head;
+                while (slow != fast) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                return slow;
+            }
+        }
+        return null;
+    }
+
+    // Remove cycle
+    void removeCycle() {
+        Node start = detectCycleStart();
+        if (start == null) return;
+
+        Node temp = start;
+        while (temp.next != start) {
+            temp = temp.next;
+        }
+        temp.next = null;
+    }
+}
+```
+
+### **Key Takeaways**
+✔ **Floyd’s Algorithm** helps in both **detecting** and **removing** cycles.  
+✔ **Reaching the cycle start** takes at most **O(n)** steps.  
+✔ **Breaking the cycle** ensures the Linked List returns to a normal structure.
+
+---
+
+### **When is Cycle Detection Used?**
+✅ **Memory Management**: Detecting **infinite loops** in garbage collection.  
+✅ **Networking**: Detecting **routing loops** in network graphs.  
+✅ **Scheduling Algorithms**: Detecting **deadlocks** in CPU scheduling.  
+
+---
+
+### 5️⃣ **Remove Duplicates**
 ```java
 void removeDuplicates() {
     Node current = head;

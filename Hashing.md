@@ -1,5 +1,5 @@
 
-## **Hashing Overview**
+# **Hashing Overview**
 
 Hashing is a technique used to uniquely identify a specific object from a collection of objects. It uses a **hash function** to map data of arbitrary size (like strings or integers) to a fixed size. This is mainly used for data retrieval and ensuring that each data has a unique identifier.
 

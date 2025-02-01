@@ -1,4 +1,4 @@
-# 📒 **Linked List Notes**  
+# **Linked List Notes**  
 
 Linked Lists are one of the fundamental data structures in computer science, often used when the size of the data isn't fixed, or you need to perform frequent insertions and deletions.
 
