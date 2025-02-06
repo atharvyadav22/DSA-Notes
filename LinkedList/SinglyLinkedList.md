@@ -1,6 +1,13 @@
 
 # **Singly Linked List**
 
+### **By Default Java has inbuild LinkedList**
+```java
+import java.util.LinkedList
+
+LinkedList<Object> ls = new LinkedList<>();
+```
+
 ### **Node Structure:**
 ```java
 class Node {
@@ -19,7 +26,7 @@ class Node {
 
 ### **Basic Linked List Operations**
 
-### **1️⃣ Insert at Head**  
+## **1️⃣ Insert at Head**  
 This operation inserts a new node at the beginning of the list.
 
 **Visual Representation**:  
@@ -43,7 +50,7 @@ class LinkedList {
 
 ---
 
-### **2️⃣ Insert at Tail**  
+## **2️⃣ Insert at Tail**  
 This operation inserts a new node at the end of the list.
 
 **Visual Representation**:  
@@ -72,7 +79,7 @@ void insertAtTail(int data) {
 
 ---
 
-### **3️⃣ Insert at a Specific Position**  
+## **3️⃣ Insert at a Specific Position**  
 This operation inserts a new node at the specified position in the list.
 
 **Visual Representation**:  
@@ -235,7 +242,7 @@ boolean search(int key) {
 ---
 
 
-### 4️⃣ **Reversing a Linked List**
+## 4️⃣ **Reversing a Linked List**
 - Reverse the pointers of a linked list so the head becomes the tail, and the tail becomes the head.
 
 ---
@@ -321,7 +328,7 @@ return temp.next;
 
 ## 🔢 **Utility Functions**
 
-### 1️⃣ **Print the Linked List**
+## 1️⃣ **Print the Linked List**
 ```java
 void printList() {
     Node temp = head;
@@ -336,7 +343,7 @@ void printList() {
 
 ---
 
-### 2️⃣ **Find the Length of the Linked List**
+## 2️⃣ **Find the Length of the Linked List**
 ```java
 int getLength() {
     int count = 0;
@@ -352,7 +359,7 @@ int getLength() {
 
 ---
 
-### 3️⃣ **Detect a Loop in the Linked List**
+## 3️⃣ **Detect a Loop in the Linked List**
 Using **Floyd's Cycle Detection Algorithm**:
 
 A **cycle (loop)** in a Linked List occurs when a node’s `next` pointer points to a **previous node** instead of `null`, creating an infinite loop.
@@ -373,7 +380,7 @@ boolean detectLoop() {
 ```
 ---
 
-### 4️⃣ **Remove a Cycle in a Singly Linked List**  
+## 4️⃣ **Remove a Cycle in a Singly Linked List**  
 
 #### **Java Code for Finding the Start of the Cycle**
 ```java
@@ -399,7 +406,7 @@ Node detectCycleStart(Node head) {
 
 ---
 
-### **3️⃣ Removing the Cycle**
+## **5️⃣ Removing the Cycle**
 To remove the cycle:
 1. **Find the cycle's start node** using `detectCycleStart(head)`.
 2. **Traverse to the last node in the cycle**.
@@ -504,7 +511,7 @@ class LinkedList {
 
 ---
 
-### 5️⃣ **Remove Duplicates**
+## **6️⃣ Remove Duplicates**
 ```java
 void removeDuplicates() {
     Node current = head;
@@ -518,6 +525,165 @@ void removeDuplicates() {
     }
 }
 ```
+## **7️⃣ Merge Sort in Linked List**  
+
+### **What is Merge Sort?**  
+Merge Sort is a **divide-and-conquer** algorithm that splits a Linked List into two halves, recursively sorts them, and then **merges** the sorted halves.
+
+🔹 **Time Complexity:** **O(n log n)** (Better than Bubble/Insertion Sort for LL)  
+🔹 **Space Complexity:** **O(log n)** (Recursive stack space)  
+
+---
+
+## **📌 Steps to Apply Merge Sort on Linked List**
+### **1️⃣ Split the Linked List into Two Halves**
+- Use **Fast & Slow Pointer** to find the middle.  
+- **Slow moves one step, Fast moves two steps** → Slow stops at **middle**.
+
+### **2️⃣ Recursively Sort Both Halves**
+- Sort **left half**.
+- Sort **right half**.
+
+### **3️⃣ Merge Two Sorted Lists**
+- Use **Two Pointers** to merge sorted halves.
+
+---
+
+## **🔧 Implementation of Merge Sort in Linked List**
+
+```java
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    Node head;
+
+    // Function to sort the Linked List using Merge Sort
+    Node mergeSort(Node head) {
+        if (head == null || head.next == null) return head; // Base case
+
+        Node mid = getMiddle(head);  // Step 1: Find middle
+        Node nextToMid = mid.next;
+        mid.next = null;  // Break the list into two halves
+
+        Node left = mergeSort(head); // Step 2: Recursively sort left half
+        Node right = mergeSort(nextToMid); // Step 2: Recursively sort right half
+
+        return merge(left, right); // Step 3: Merge sorted halves
+    }
+
+    // Function to merge two sorted linked lists
+    Node merge(Node l1, Node l2) {
+        if (l1 == null) return l2;
+        if (l2 == null) return l1;
+
+        if (l1.data < l2.data) {
+            l1.next = merge(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = merge(l1, l2.next);
+            return l2;
+        }
+    }
+
+    // Function to find the middle node of a Linked List
+    Node getMiddle(Node head) {
+        if (head == null) return head;
+        Node slow = head, fast = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    // Utility function to print the linked list
+    void printList(Node head) {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " -> ");
+            temp = temp.next;
+        }
+        System.out.println("null");
+    }
+}
+```
+
+---
+
+## **📌 Step-by-Step Breakdown**
+### **1️⃣ Finding the Middle Node**
+```
+Input: 1 -> 3 -> 5 -> 2 -> 4 -> null
+Slow moves one step:  1  -> 3  -> 5
+Fast moves two steps: 1  -> 5  -> null (Stops here)
+Middle Found: 5
+```
+🔹 **Time Complexity:** O(n)
+
+---
+
+### **2️⃣ Splitting the List**
+```
+Left Half:  1 -> 3 -> 5 -> null
+Right Half: 2 -> 4 -> null
+```
+🔹 **Time Complexity:** O(1) (Pointer updates)
+
+---
+
+### **3️⃣ Recursively Sorting Both Halves**
+```
+mergeSort(1 -> 3 -> 5) → Sorted → 1 -> 3 -> 5
+mergeSort(2 -> 4) → Sorted → 2 -> 4
+```
+🔹 **Time Complexity:** O(log n) (Splitting into halves)
+
+---
+
+### **4️⃣ Merging Two Sorted Lists**
+```
+Merging:
+1 -> 3 -> 5
+2 -> 4
+
+Result:
+1 -> 2 -> 3 -> 4 -> 5 -> null
+```
+🔹 **Time Complexity:** O(n) (Traversing both lists)
+
+---
+
+## **📌 Time & Space Complexity Analysis**
+| **Operation**       | **Time Complexity** | **Space Complexity** |
+|----------------------|---------------------|----------------------|
+| **Finding Middle**   | O(n)                | O(1)                 |
+| **Splitting List**   | O(1)                | O(1)                 |
+| **Sorting Halves**   | O(log n) recursive calls | O(log n) (Recursion stack) |
+| **Merging Two Lists**| O(n)                | O(1)                 |
+| **Total Complexity** | **O(n log n)**      | **O(log n)**         |
+
+---
+
+## **📌 When to Use Merge Sort for Linked List?**
+✅ **When Stability is Required** (Merge Sort is **Stable**)  
+✅ **When Linked List is Large** (O(n log n) is optimal)  
+✅ **When Random Access is NOT Required** (Unlike QuickSort, Merge Sort doesn’t require index access)  
+
+---
+
+### **🔹 Key Takeaways**
+✔ **Best Sorting Algorithm for Linked Lists** (Unlike QuickSort, no random access required).  
+✔ **Recursive Approach Divides & Merges Efficiently**.  
+✔ **Works in O(n log n) Complexity**, better than Bubble Sort (`O(n²)`).  
 
 ---
 
